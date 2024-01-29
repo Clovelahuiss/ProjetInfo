@@ -1,9 +1,6 @@
 from django.contrib import admin
+from .models import Table, Reservation
 
-from app_info.models import Table
-
-table = Table(nom="Table 1", capacite=4)
-table.save()
-
-
-# Register your models here.
+# Enregistrez vos modèles ici
+admin.site.register(Table)
+admin.site.register(Reservation)

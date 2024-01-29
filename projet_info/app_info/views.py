@@ -11,7 +11,9 @@ def ajouter_reservation(request):
     if request.method == 'POST':
         form = ReservationForm(request.POST)
         if form.is_valid():
-            form.save()
+            reservation = form.save(commit=False)
+            reservation.assign_table()  # Assigner une table
+            reservation.save()
             return redirect('calendrier_reservations')
     else:
         form = ReservationForm()
