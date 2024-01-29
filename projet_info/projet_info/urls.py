@@ -1,22 +1,9 @@
-"""projet_info URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.urls import path
-from app_info import views  # Importez les vues de l'application
+from django.contrib import admin
+from django.urls import path, include  # Assurez-vous que 'path' et 'include' sont bien importés
+from django.views.generic import RedirectView  # Importation de RedirectView
 
 urlpatterns = [
-    path('', views.accueil, name='accueil'),
-    # Ajoutez d'autres chemins d'URL ici au besoin
+    path('admin/', admin.site.urls),
+    path('app_info/', include('app_info.urls')),
+    path('', RedirectView.as_view(url='app_info/calendrier/', permanent=True)),  # Redirection de l'URL racine
 ]

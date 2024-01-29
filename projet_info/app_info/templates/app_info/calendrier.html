@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendrier des Réservations</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.10/index.global.min.js'></script>
+
+
+    <style>
+        #calendar {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            #calendar {
+                max-width: 100%;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Calendrier des Réservations</h1>
+
+    <div id='calendar'></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: [
+                    {% for reservation in reservations %}
+                    {
+                        title: 'Réservation - Table ' + 'Table 1',
+
+                        start: '{{ reservation.date_heure|date:"Y-m-d\TH:i:s" }}',
+
+                    },
+                    {% endfor %}
+                ]
+            });
+            calendar.render();
+        });
+    </script>
+
+    <ul>
+        {% for reservation in reservations %}
+        <li>
+            Table : {{ reservation.table.nom }} - 
+            Date et Heure : {{ reservation.date_heure }} - 
+            Nombre de Personnes : {{ reservation.nombre_personnes }}
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'ajouter_reservation' %}">Ajouter une Réservation</a>
+</body>
+</html>

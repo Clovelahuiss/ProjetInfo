@@ -1,5 +1,18 @@
-# views.py
-from django.http import HttpResponse
+from django.shortcuts import render
+from .models import Reservation
+from django.shortcuts import render, redirect
+from .forms import ReservationForm
 
-def accueil(request):
-    return HttpResponse("<h1>Bienvenue sur mon site</h1>")
+def calendrier_reservations(request):
+    reservations = Reservation.objects.all()
+    return render(request, 'app_info/calendrier.html', {'reservations': reservations})
+
+def ajouter_reservation(request):
+    if request.method == 'POST':
+        form = ReservationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('calendrier_reservations')
+    else:
+        form = ReservationForm()
+    return render(request, 'app_info/ajouter_reservation.html', {'form': form})
