@@ -1,3 +1,5 @@
-from django.shortcuts import render
+# views.py
+from django.http import HttpResponse
 
-# Create your views here.
+def accueil(request):
+    return HttpResponse("<h1>Bienvenue sur mon site</h1>")
