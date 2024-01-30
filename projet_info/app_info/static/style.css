@@ -1,36 +1,14 @@
-body {
+header {
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
     font-family: Arial, sans-serif;
 }
 
-.calendrier {
-    width: 350px;
-    margin: 20px auto;
-}
-
-.mois {
-    text-align: center;
-    padding: 5px 0;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 20px;
-}
-
-.jours-semaine, .jours {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.jours-semaine div, .jours .jour {
-    width: calc(100% / 7);
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ddd;
-}
-
-.jours .jour {
-    height: 50px;
-}
-
-.jour.precedent-mois, .jour.suivant-mois {
-    color: #999;
+html,
+body {
+    margin: 0;
+    padding: 0;
 }

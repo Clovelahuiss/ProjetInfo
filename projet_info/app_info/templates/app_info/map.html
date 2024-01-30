@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<header>
+    <div class="left">Accueil</div>
+    <div class="right">Admin</div>
+</header>
+
+<body>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" id="table_id" name="table" value="">
+
+        <button type="submit">Réserver</button>
+    </form>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+        
+    </div>
+
+    <!-- un gros bloc qui contient l'image et les formes -->
+    <div class="container">
+        <div class="image-container">
+            <img src="{% static 'png-transparent-restaurant-gratis-small-restaurant-design-interior-design-stool-interior-design-services-removebg-preview.png' %}" alt="Image de restaurant">
+            <div class="parallelepiped21">
+                <div class="table21" data-table-id="table21"></div>
+                
+            <div class="parallelepiped22">
+                <div class="table22" data-table-id="table22"></div>
+            </div>
+            <div class="parallelepiped41">
+                <div class="table41" data-table-id="table41"></div>
+            </div>
+            <div class="table11" data-table-id="table11"></div>
+            <div class="table12" data-table-id="table12"></div>
+            <div class="table13" data-table-id="table13"></div>
+            <div class="table14" data-table-id="table14"></div>
+            <div class="table15" data-table-id="table15"></div>
+        </div>
+    </div>
+
+
+
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10hv;
+            /* This makes the container take up the full height of the viewport */
+        }
+        
+        .table11 {
+            top: 47.8%;
+            /* Adjust these values to move the shape */
+            left: 37.4%;
+            width: 28px;
+            height: 16px;
+            background: rgba(144, 238, 144, 0.572);
+            -webkit-border-radius: 160px / 100px;
+            -moz-border-radius: 160px / 100px;
+            border-radius: 160px / 100px;
+            position: absolute;
+        }
+        
+        .table12 {
+            top: 51.1%;
+            /* Adjust these values to move the shape */
+            left: 43.5%;
+            /* Other styles for .table15 */
+            width: 28px;
+            height: 16px;
+            background: rgba(144, 238, 144, 0.572);
+            -webkit-border-radius: 160px / 100px;
+            -moz-border-radius: 160px / 100px;
+            border-radius: 160px / 100px;
+            position: absolute;
+        }
+        
+        .table13 {
+            top: 56.8%;
+            /* Adjust these values to move the shape */
+            left: 62.6%;
+            /* Other styles for .table15 */
+            width: 28px;
+            height: 16px;
+            background: rgba(144, 238, 144, 0.572);
+            -webkit-border-radius: 160px / 100px;
+            -moz-border-radius: 160px / 100px;
+            border-radius: 160px / 100px;
+            position: absolute;
+        }
+        
+        .table14 {
+            top: 53%;
+            /* Adjust these values to move the shape */
+            left: 69.8%;
+            /* Other styles for .table15 */
+            width: 28px;
+            height: 16px;
+            background: rgba(144, 238, 144, 0.572);
+            -webkit-border-radius: 160px / 100px;
+            -moz-border-radius: 160px / 100px;
+            border-radius: 160px / 100px;
+            position: absolute;
+        }
+        
+        .table15 {
+            width: 28px;
+            height: 16px;
+            background: rgba(144, 238, 144, 0.572);
+            -webkit-border-radius: 160px / 100px;
+            -moz-border-radius: 160px / 100px;
+            border-radius: 160px / 100px;
+            position: absolute;
+            position: absolute;
+            top: 55%;
+            /* Adjust these values to move the shape */
+            left: 50.5%;
+            /* Other styles for .table15 */
+        }
+        
+        .parallelepiped21 {
+            position: absolute;
+            top: 55%;
+            /* Adjust these values to move the shape */
+            left: 14.4%;
+            width: 200px;
+            height: 100px;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(45deg);
+        }
+        
+        .parallelepiped21 .table21 {
+            position: absolute;
+            width: 85px;
+            height: 55px;
+            background: rgba(144, 238, 144, 0.572);
+            transform: rotateX(90deg) translateY(-50px);
+            transform-origin: top center;
+        }
+        
+        .parallelepiped22 {
+            position: absolute;
+            top: 60%;
+            /* Adjust these values to move the shape */
+            left: 71%;
+            width: 200px;
+            height: 100px;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(45deg);
+        }
+        
+        .parallelepiped22 .table22 {
+            position: absolute;
+            width: 85px;
+            height: 55px;
+            background: rgba(144, 238, 144, 0.572);
+            transform: rotateX(90deg) translateY(-50px);
+            transform-origin: top center;
+        }
+        
+        .parallelepiped41 {
+            position: absolute;
+            top: 68%;
+            /* Adjust these values to move the shape */
+            left: 35.7%;
+            width: 200px;
+            height: 100px;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(45deg);
+        }
+        
+        .parallelepiped41 .table41 {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            background: rgba(144, 238, 144, 0.572);
+            transform: rotateX(90deg) translateY(-50px);
+            transform-origin: top center;
+        }
+        
+        .form-container {
+            display: flex;
+            width: 300px;
+            padding: 20px;
+            border: 5px solid black;
+            margin: 10px auto;
+        }
+        
+        .selected {
+            background: rgba(255, 0, 0, 0.572) !important;
+            /* Force la couleur de fond Ã  rouge */
+        }
+        
+        .image-container {
+            position: relative;
+        }
+        
+        .image-container img {
+            width: 100%;
+        }
+    </style>
+
+    
+</body>
+    <script src="{% static 'map.js' %}"></script>
+
+
+</html>
