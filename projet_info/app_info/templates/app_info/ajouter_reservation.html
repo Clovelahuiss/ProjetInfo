@@ -4,9 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="reservation.css">
-    <link rel="stylesheet" href="./reservation.css">
-
     <title>Document</title>
 </head>
 <header>
@@ -33,6 +30,9 @@
                         <label for="date">Date et heure:</label>
                         {{ form.date_heure }}
 
+                        <label for="heure">Heure:</label>
+                        {{ form.time_slot }}
+
                         <label for="number_of_people">Nombre de personnes:</label>
                         {{ form.nombre_personnes }}
 
@@ -48,6 +48,7 @@
 
 </body>
 
+    
 <style>
     *,
     *:before,
@@ -164,7 +165,6 @@
     }
 </style>
 
-<script src="./index.js"></script>
 
 
 </html>

@@ -30,8 +30,12 @@ def ajouter_reservation(request):
             reservation = form.save(commit=False)
             reservation.nom = request.user.get_full_name() or request.user.username
             reservation.user = request.user  # Assurez-vous que votre modèle Reservation a un champ user
-            reservation.save()
-            return redirect('calendrier_reservations')  # Rediriger vers la page du calendrier
+            try:
+                reservation.save()
+                messages.success(request, 'Réservation réussie.')
+                return redirect('calendrier_reservations')  # Rediriger vers la page du calendrier
+            except ValidationError as e:
+                messages.error(request, str(e))
         else:
             print(form.errors)  # Affiche les erreurs de validation du formulaire
     else:
@@ -42,7 +46,4 @@ def ajouter_reservation(request):
         'is_map_page': request.path == '/app_info/map/'  # Ajouter un indicateur pour la page map
     }
     return render(request, 'app_info/ajouter_reservation.html', context)
-    reservation.user = request.user
-    reservation.save()
-
-# ... autres imports ...
+    return redirect('calendrier_reservations')

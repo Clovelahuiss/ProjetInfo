@@ -5,6 +5,8 @@ from django.db import models
 from django.db.models import Min
 import random
 from django.contrib.auth.models import User
+import datetime
+from django.db.models import F
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -24,7 +26,6 @@ class Table(models.Model):
     
 
 class Reservation(models.Model):
-    # Vos autres champs de réservation
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     nom = models.CharField(max_length=100)
     date_heure = models.DateTimeField()
@@ -34,32 +35,39 @@ class Reservation(models.Model):
     def assign_table(self):
         # Trouver les tables qui peuvent accueillir le nombre de personnes et qui ne sont pas déjà réservées à cette date/heure
         available_tables = Table.objects.annotate(
-            surplus_capacity=models.F('capacite') - self.nombre_personnes
+            surplus_capacity=F('capacite') - self.nombre_personnes
         ).filter(
             capacite__gte=self.nombre_personnes,
             # Assurez-vous que cette table n'a pas de réservation qui se chevauche avec l'heure demandée
         ).exclude(
-            reservation__date_heure__date=self.date_heure.date(),
-            reservation__date_heure__lte=self.date_heure,
-            reservation__date_heure__gte=self.date_heure
+            reservation__date_heure__range=(self.date_heure, self.date_heure + datetime.timedelta(hours=1))
         ).order_by('surplus_capacity')
+
+        print('Available tables:', available_tables)
 
         if available_tables.exists():
             self.table = available_tables.first()
+            print('Assigned table:', self.table)
         else:
             raise ValidationError('Aucune table disponible pour le nombre de personnes spécifié.')
 
     def save(self, *args, **kwargs):
-        self.full_clean()  # Assurez-vous que la méthode clean est appelée avant de sauvegarder
+        self.assign_table()
         super(Reservation, self).save(*args, **kwargs)
-
+        
     def clean(self):
-        if self.date_heure < timezone.now():
-            raise ValidationError('La date et l\'heure ne peuvent pas être dans le passé')
+            cleaned_data = super().clean()
 
-        # Cette logique pourrait être incluse dans assign_table si vous préférez
-        if not self.table:
-            self.assign_table()
+            if cleaned_data is None:
+                return None
 
-    def __str__(self):
-        return f"{self.nom} - {self.table} - {self.date_heure.strftime('%Y-%m-%d %H:%M')}"
+            date = cleaned_data.get('date')
+            heure = cleaned_data.get('heure')
+
+            if date and heure:
+                heure_debut = datetime.time(int(heure[:2]), int(heure[3:5]))
+                datetime_obj = datetime.datetime.combine(date, heure_debut)
+                cleaned_data['date_heure'] = datetime_obj
+                print('date_heure:', datetime_obj)
+            else:
+                print('date or heure is missing')
