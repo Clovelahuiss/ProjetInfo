@@ -2,10 +2,12 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.db import models
+from django.db.models import Min
 import random
 
 class Table(models.Model):
-    nom = models.CharField(max_length=50)
+    id=models.AutoField(primary_key=True)
+    nom = models.CharField(max_length=100, unique=True)
     capacite = models.IntegerField()
 
     def __str__(self):
@@ -19,41 +21,35 @@ class Reservation(models.Model):
     nombre_personnes = models.IntegerField()
     table = models.ForeignKey(Table, on_delete=models.SET_NULL, null=True)
 
+    def assign_table(self):
+        # Trouver les tables qui peuvent accueillir le nombre de personnes et qui ne sont pas déjà réservées à cette date/heure
+        available_tables = Table.objects.annotate(
+            surplus_capacity=models.F('capacite') - self.nombre_personnes
+        ).filter(
+            capacite__gte=self.nombre_personnes,
+            # Assurez-vous que cette table n'a pas de réservation qui se chevauche avec l'heure demandée
+        ).exclude(
+            reservation__date_heure__date=self.date_heure.date(),
+            reservation__date_heure__lte=self.date_heure,
+            reservation__date_heure__gte=self.date_heure
+        ).order_by('surplus_capacity')
+
+        if available_tables.exists():
+            self.table = available_tables.first()
+        else:
+            raise ValidationError('Aucune table disponible pour le nombre de personnes spécifié.')
+
     def save(self, *args, **kwargs):
-        if not self.id:  # Vérifie si c'est une nouvelle instance
-            # Ici, personnalisez la logique pour définir le nom de la réservation
-            self.nom_reservation = self.nom 
-            
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.table} - {self.date_heure.strftime('%Y-%m-%d %H:%M')}"
-
-    def get_absolute_url(self):
-        return reverse('reservation-detail', kwargs={'pk': self.pk})
+        self.full_clean()  # Assurez-vous que la méthode clean est appelée avant de sauvegarder
+        super(Reservation, self).save(*args, **kwargs)
 
     def clean(self):
-        super().clean()
-        if self.date_heure and self.date_heure < timezone.now():
+        if self.date_heure < timezone.now():
             raise ValidationError('La date et l\'heure ne peuvent pas être dans le passé')
 
-            # Trouver les réservations qui se chevauchent avec la date et l'heure demandées
-            overlapping_reservations = Reservation.objects.filter(
-                tablecapacitegte=self.nombre_personnes,
-                date_heure=self.date_heure
-            )
+        # Cette logique pourrait être incluse dans assign_table si vous préférez
+        if not self.table:
+            self.assign_table()
 
-            # S'il y a des réservations qui se chevauchent, la table n'est pas disponible
-            if overlapping_reservations.exists():
-                raise ValidationError('Désolé, aucune table n\'est disponible à cette date et heure')
-
-            # Si aucune réservation ne se chevauche, trouver une table disponible
-            available_tables = Table.objects.filter(capacitegte=self.nombre_personnes).exclude(
-                reservationin=overlapping_reservations
-            )
-
-            # S'il y a des tables disponibles, affecter une à la réservation
-            if available_tables.exists():
-                self.table = available_tables.first()  # Affecter la première table disponible
-            else:
-                raise ValidationError('Désolé, aucune table n\'est disponible pour le nombre de personnes spécifié')
+    def __str__(self):
+        return f"{self.nom} - {self.table} - {self.date_heure.strftime('%Y-%m-%d %H:%M')}"

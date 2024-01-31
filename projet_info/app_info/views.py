@@ -5,6 +5,11 @@ from .forms import ReservationForm
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import ReservationForm
+from .models import Table
+from django.contrib import messages
 
 
 def calendrier_reservations(request):
@@ -28,13 +33,30 @@ def ajouter_reservation(request):
     }
     return render(request, 'app_info/ajouter_reservation.html', context)
 
-def map(request):
-    form = ReservationForm()
-    if request.method == 'POST':
-        form = ReservationForm(request.POST)
-        if form.is_valid():
-            reservation = form.save()
-            messages.success(request, 'Votre réservation a été effectuée avec succès.')
-            return redirect('map')  # Redirigez vers la même page ou une autre selon vos besoins
-    return render(request, 'app_info/map.html', {'form': form})
+# ... autres imports ...
 
+def map(request):
+    form = ReservationForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        reservation = form.save(commit=False)
+
+        # Récupérer l'ID de la table à partir du champ caché et convertir en entier si non vide
+        table_id = request.POST.get('table')
+        if table_id:
+            try:
+                table_id = int(table_id)  # Conversion de l'ID en entier
+                table = get_object_or_404(Table, pk=table_id)  # Récupération de l'instance de Table
+                reservation.table = table  # Assignation de l'instance à la réservation
+            except ValueError:
+                # Gestion de l'erreur si la conversion en entier échoue
+                messages.error(request, "ID de table invalide.")
+                return render(request, 'app_info/map.html', {'form': form})
+        else:
+            messages.error(request, "Aucune table sélectionnée.")
+            return render(request, 'app_info/map.html', {'form': form})
+
+        reservation.save()  # Sauvegarde de la réservation avec la table assignée
+        messages.success(request, "Votre réservation a été enregistrée.")
+        return redirect('map')
+
+    return render(request, 'app_info/map.html', {'form': form})
