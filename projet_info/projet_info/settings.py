@@ -26,6 +26,11 @@ SECRET_KEY = 'django-insecure-)^mekx56c*$eoapuj_j6g2z(c^_tf)*u5@ixisyavb1z$-4&#_
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# settings.py
+
+LOGIN_REDIRECT_URL = 'calendrier_reservations'
+LOGOUT_REDIRECT_URL = 'calendrier_reservations'
+
 
 
 # Application definition
@@ -37,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app_info',
+    'app_info.apps.AppInfoConfig',
 ]
 
 MIDDLEWARE = [

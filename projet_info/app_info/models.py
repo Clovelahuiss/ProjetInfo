@@ -4,6 +4,15 @@ from django.utils import timezone
 from django.db import models
 from django.db.models import Min
 import random
+from django.contrib.auth.models import User
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.user.username
+
 
 class Table(models.Model):
     id=models.AutoField(primary_key=True)
@@ -16,6 +25,7 @@ class Table(models.Model):
 
 class Reservation(models.Model):
     # Vos autres champs de réservation
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     nom = models.CharField(max_length=100)
     date_heure = models.DateTimeField()
     nombre_personnes = models.IntegerField()

@@ -22,6 +22,13 @@
 </head>
 <body>
     <h1>Calendrier des Réservations</h1>
+    {% if user.is_authenticated %}
+    <a href="{% url 'logout' %}">Déconnexion</a>
+{% else %}
+    <a href="{% url 'login' %}" class="btn btn-primary">Connexion</a>
+{% endif %}
+
+<a href="{% url 'signup' %}">Créer un compte</a>
 
     <div id='calendar'></div>
 
@@ -54,6 +61,12 @@
         </li>
         {% endfor %}
     </ul>
-    <a href="{% url 'ajouter_reservation' %}">Ajouter une Réservation</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'ajouter_reservation' %}">Ajouter une réservation</a>
+    {% else %}
+    <p>Vous devez vous <a href="{% url 'login' %}">connecter</a> pour ajouter une réservation.</p>
+{% endif %}
+
+    
 </body>
 </html>
