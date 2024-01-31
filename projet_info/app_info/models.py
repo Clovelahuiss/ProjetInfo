@@ -7,6 +7,9 @@ import random
 from django.contrib.auth.models import User
 import datetime
 from django.db.models import F
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+import datetime
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -56,18 +59,24 @@ class Reservation(models.Model):
         super(Reservation, self).save(*args, **kwargs)
         
     def clean(self):
-            cleaned_data = super().clean()
+        super().clean()
 
-            if cleaned_data is None:
-                return None
+        if self.date_heure:
+            date = self.date_heure.date()
+            heure = self.date_heure.time()
+            if self.date_heure.date() < timezone.now().date():
+                raise ValidationError('La date de réservation est déjà passée.')
 
-            date = cleaned_data.get('date')
-            heure = cleaned_data.get('heure')
+            heure_debut = datetime.time(heure.hour, heure.minute)
+            datetime_obj = datetime.datetime.combine(date, heure_debut)
+            self.date_heure = datetime_obj
+            print('date_heure:', datetime_obj)
+        
+        else:
+            print('date_heure is missing')
+            return
 
-            if date and heure:
-                heure_debut = datetime.time(int(heure[:2]), int(heure[3:5]))
-                datetime_obj = datetime.datetime.combine(date, heure_debut)
-                cleaned_data['date_heure'] = datetime_obj
-                print('date_heure:', datetime_obj)
-            else:
-                print('date or heure is missing')
+        
+
+    def __str__(self):
+        return f"{self.nom} - {self.date_heure}-{self.table}"

@@ -5,10 +5,8 @@ from .forms import ReservationForm
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.contrib import messages
-from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReservationForm
-from .models import Table
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views import generic
@@ -27,15 +25,15 @@ def ajouter_reservation(request):
     if request.method == 'POST':
         form = ReservationForm(request.POST)
         if form.is_valid():
-            reservation = form.save(commit=False)
-            reservation.nom = request.user.get_full_name() or request.user.username
-            reservation.user = request.user  # Assurez-vous que votre modèle Reservation a un champ user
             try:
+                reservation = form.save(commit=False)
+                reservation.nom = request.user.get_full_name() or request.user.username
+                reservation.user = request.user  # Assurez-vous que votre modèle Reservation a un champ user
                 reservation.save()
                 messages.success(request, 'Réservation réussie.')
                 return redirect('calendrier_reservations')  # Rediriger vers la page du calendrier
             except ValidationError as e:
-                messages.error(request, str(e))
+                form.add_error(None, str(e))
         else:
             print(form.errors)  # Affiche les erreurs de validation du formulaire
     else:
@@ -46,4 +44,3 @@ def ajouter_reservation(request):
         'is_map_page': request.path == '/app_info/map/'  # Ajouter un indicateur pour la page map
     }
     return render(request, 'app_info/ajouter_reservation.html', context)
-    return redirect('calendrier_reservations')
