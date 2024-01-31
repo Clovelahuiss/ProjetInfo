@@ -1,0 +1,25 @@
+CREATE TABLE tables(
+   idtable INT,
+   capacite INT NOT NULL,
+   PRIMARY KEY(idtable)
+);
+
+CREATE TABLE clients(
+   idclient INT,
+   mail CHAR(100) NOT NULL,
+   nom CHAR(100) NOT NULL,
+   PRIMARY KEY(idclient),
+   UNIQUE(mail)
+);
+
+CREATE TABLE reservation(
+   idreservation INT,
+   nbpersonne INT NOT NULL,
+   datefin TIME NOT NULL,
+   datedebut TIME NOT NULL,
+   idclient INT NOT NULL,
+   idtable INT NOT NULL,
+   PRIMARY KEY(idreservation),
+   FOREIGN KEY(idclient) REFERENCES clients(idclient),
+   FOREIGN KEY(idtable) REFERENCES tables(idtable)
+);
