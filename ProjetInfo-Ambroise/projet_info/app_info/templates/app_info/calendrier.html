@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendrier des Réservations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.10/index.global.min.js'></script>
+
+    <style>
+        #calendar {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            #calendar {
+                max-width: 100%;
+            }
+        }
+        body {
+            margin: 40px 10px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+        .login-button-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000; 
+        }
+
+        a {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #eee;
+        }
+
+    </style>
+
+</head>
+<body>
+    <h1>Calendrier des Réservations</h1>
+    <div class="login-button-container">
+        <a href="{% url 'login' %}" class="btn btn-primary">Se connecter</a>
+    </div>
+    
+    <div id='calendar'></div>
+
+    <script>
+        function formatDate(date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var day = date.getDate().toString().padStart(2, '0');
+            return year + '-' + month + '-' + day;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: [
+                    {% for jour in nb_reservations_midi %}
+                    {
+                        title: 'Résa-Midi: ' + '{{ jour.nb_reservations_midi }}',
+                        start: '{{ jour.date|date:"Y-m-d" }}',
+                    },
+                    {% endfor %}
+                    {% for jour in nb_clients_midi %}
+                    {
+                        title: 'Clients midi: ' + '{{ jour.nb_clients_midi }}',
+                        start: '{{ jour.date|date:"Y-m-d" }}',
+                    },
+                    {% endfor %}
+                    {% for jour in nb_reservations_soir %}
+                    {
+                        title: 'Résa-Soir: ' + '{{ jour.nb_reservations_soir }}',
+                        start: '{{ jour.date|date:"Y-m-d" }}',
+                    },
+                    {% endfor %}
+                    {% for jour in nb_clients_soir %}
+                    {
+                        title: 'Clients soir: ' + '{{ jour.nb_clients_soir }}',
+                        start: '{{ jour.date|date:"Y-m-d" }}',
+                    },
+                    {% endfor %}
+                    {% for jour in nb_reservations_jour %}
+                    {
+                        title: 'Total résa: ' + '{{ jour.nb_reservations_jour }}',
+                        start: '{{ jour.date|date:"Y-m-d" }}',
+                    },
+                    {% endfor %}
+                    {% for jour in nb_clients %}
+                    {
+                        title: 'Total clients: ' + '{{ jour.nb_clients }}',
+                        start: '{{ jour.date|date:"Y-m-d" }}',
+                    },
+                    {% endfor %}
+                ],
+                dateClick: function(info) {
+                // Récupérer la date sélectionée et formater dans le même style que currentDate
+                var selectedDate = formatDate(info.date);
+                // Stocker la date dans localStorage
+                localStorage.setItem('selectedDate', selectedDate);
+                // Rediriger l'utilisateur vers la page historique
+                window.location.href = "{% url 'historique' %}";
+                },
+            });
+            calendar.render();
+        });
+    </script>
+    <a href="{% url 'historique' %}">Historique des réservations</a>
+    <a href="{% url 'ajouter_reservation' %}">Ajouter une Réservation</a>
+</body>
+</html>

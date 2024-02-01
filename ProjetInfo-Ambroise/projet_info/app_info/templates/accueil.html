@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="static/style.css">
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendrier Simple</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-button-container">
+        <a href="{% url 'login' %}" class="btn btn-primary">Se connecter</a>
+    </div>
+    <div class="calendrier">
+        <div class="mois">Mars 2024</div>
+        <div class="jours-semaine">
+            <div>Dim</div>
+            <div>Lun</div>
+            <div>Mar</div>
+            <div>Mer</div>
+            <div>Jeu</div>
+            <div>Ven</div>
+            <div>Sam</div>
+        </div>
+        <div class="jours">
+            <!-- Exemple de jours (ajustez selon le mois) -->
+            <div class="jour precedent-mois">26</div>
+            <div class="jour precedent-mois">27</div>
+            <!-- ... autres jours du mois précédent ... -->
+            <div class="jour">1</div>
+            <div class="jour">2</div>
+            <!-- ... autres jours du mois actuel ... -->
+            <div class="jour suivant-mois">1</div>
+            <div class="jour suivant-mois">2</div>
+            <!-- ... autres jours du mois suivant ... -->
+        </div>
+    </div>
+</body>
+</html>

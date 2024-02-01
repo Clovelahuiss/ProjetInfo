@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique</title>
+    <style>
+        a {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>Historique des réservations</h1>
+    <div id="dateDisplay"></div>
+    <a href="#" onclick="prevDay();">Jour précédent</a>
+    <a href="#" onclick="ToDay();">Aujourd'hui</a>
+    <a href="#" onclick="nextDay();">Jour suivant</a>
+    
+    
+    <h2>Service du midi (11h - 14h) :
+    {{ data.nb_reservations_midi.0.nb_reservations_midi }} réservations, 
+    {{ data.nb_clients_midi.0.nb_clients_midi }} clients</h2>
+    <ul>
+        {% for reservation in reservations %}
+            {% if reservation.date_heure.hour >= 11 and reservation.date_heure.hour <= 14 and reservation.date_heure__date == currentDate %}
+                <li>
+                    {{ reservation.table.nom }} - 
+                    {{ reservation.nom }} - 
+                    {{ reservation.nombre_personnes }} personne(s) -
+                    {{ reservation.date_heure }}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <h2>Service du soir (18h - 21h) :
+        {{ data.nb_reservations_soir.0.nb_reservations_soir}} réservations, 
+        {{ data.nb_clients_soir.0.nb_clients_soir }} clients</h2>
+    <ul>
+        {% for reservation in reservations %}
+            {% if reservation.date_heure.hour >= 18 and reservation.date_heure.hour <= 21 and reservation.date_heure__date == currentDate %}
+                <li>
+                    {{ reservation.table.nom }} - 
+                    {{ reservation.nom }} - 
+                    {{ reservation.nombre_personnes }} personne(s) -
+                    {{ reservation.date_heure }}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <h2>TOTAL : {{ data.nb_reservations_jour.0.nb_reservations_jour }} réservations, {{ data.nb_clients.0.nb_clients }} clients</h2>
+
+    <a href="{% url 'calendrier_reservations' %}">Retour au Calendrier</a>
+    <a href="{% url 'ajouter_reservation' %}">Ajouter une Réservation</a>
+    
+    <script>
+        var currentDate;
+        //Fonction pour formater la date
+        function formatDate(date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var day = date.getDate().toString().padStart(2, '0');
+            return year + '-' + month + '-' + day;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer la date depuis localStorage
+        var selectedDate = localStorage.getItem('selectedDate');
+        console.log("Date sélectionnée :", selectedDate);
+
+        // Mettre à jour l'affichage de la date seulement si selectedDate est défini
+        if (selectedDate) {
+            document.getElementById('dateDisplay').innerHTML = 'Date actuelle : ' + selectedDate;
+            currentDate = new Date(selectedDate); // Assigner la valeur de selectedDate à currentDate
+        } else {
+            // Si selectedDate n'est pas défini, afficher la date actuelle
+            document.getElementById('dateDisplay').innerHTML = 'Date actuelle : ' + formatDate(new Date());
+            currentDate = new Date(); // Assigner la date actuelle à currentDate
+            currentDate.setHours(0, 0, 0, 0);
+            console.log("currentDate :", currentDate);
+        }
+        localStorage.removeItem('selectedDate');
+    });
+
+        // Fonction pour mettre à jour et afficher la date
+        function updateDateDisplay() {
+            document.getElementById('dateDisplay').innerHTML = 'Date actuelle : ' + formatDate(currentDate);
+            currentDate.setHours(0, 0, 0, 0);
+            console.log("NewCurrentDate :", currentDate);
+        }
+
+        // Fonction pour passer à aujourd'hui
+        function ToDay() {
+            currentDate = new Date();
+            updateDateDisplay();
+        }
+
+        // Fonction pour passer à la journée suivante
+        function nextDay() {
+            currentDate.setDate(currentDate.getDate() + 1);
+            updateDateDisplay();
+        }
+
+        // Fonction pour passer à la journée précédente
+        function prevDay() {
+            currentDate.setDate(currentDate.getDate() - 1);
+            updateDateDisplay();
+        }
+    </script>
+</body>
+</html>
