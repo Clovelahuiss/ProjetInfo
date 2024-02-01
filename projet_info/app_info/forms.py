@@ -19,7 +19,7 @@ class ReservationForm(forms.ModelForm):
 
     class Meta:
         model = Reservation
-        fields = ['nom', 'nombre_personnes']
+        fields = ['nombre_personnes', 'date_heure']
         # Le champ 'date_heure' est géré manuellement, donc pas inclus dans 'fields'
 
     def __init__(self, *args, **kwargs):

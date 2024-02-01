@@ -34,7 +34,10 @@
                         </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'ajouter_reservation' %}">Reservation</a>
+                            <a class="nav-link" href="{% url 'ajouter_reservation' %}">Réserver</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'list_reservations' %}">Mes Reservation</a>
                         </li>
                     {% endif %}
                         </li>

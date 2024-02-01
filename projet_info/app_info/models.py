@@ -10,6 +10,9 @@ from django.db.models import F
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 import datetime
+from django.utils.timezone import make_aware, get_default_timezone
+
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -17,6 +20,8 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
 
 
 class Table(models.Model):
@@ -30,29 +35,24 @@ class Table(models.Model):
 
 class Reservation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    nom = models.CharField(max_length=100)
     date_heure = models.DateTimeField()
     nombre_personnes = models.IntegerField()
     table = models.ForeignKey(Table, on_delete=models.SET_NULL, null=True)
 
     def assign_table(self):
-        # Trouver les tables qui peuvent accueillir le nombre de personnes et qui ne sont pas déjà réservées à cette date/heure
         available_tables = Table.objects.annotate(
             surplus_capacity=F('capacite') - self.nombre_personnes
         ).filter(
             capacite__gte=self.nombre_personnes,
-            # Assurez-vous que cette table n'a pas de réservation qui se chevauche avec l'heure demandée
         ).exclude(
             reservation__date_heure__range=(self.date_heure, self.date_heure + datetime.timedelta(hours=1))
         ).order_by('surplus_capacity')
 
-        print('Available tables:', available_tables)
-
         if available_tables.exists():
             self.table = available_tables.first()
-            print('Assigned table:', self.table)
+            return True  # Indique que l'assignation a réussi
         else:
-            raise ValidationError('Aucune table disponible pour le nombre de personnes spécifié.')
+            return False  # Indique qu'aucune table n'est disponible
 
     def save(self, *args, **kwargs):
         self.assign_table()
@@ -64,7 +64,9 @@ class Reservation(models.Model):
         if self.date_heure:
             date = self.date_heure.date()
             heure = self.date_heure.time()
-            if self.date_heure.date() < timezone.now().date():
+            if timezone.is_naive(self.date_heure):
+                self.date_heure = make_aware(self.date_heure, get_default_timezone())
+            if self.date_heure < timezone.now():
                 raise ValidationError('La date de réservation est déjà passée.')
 
             heure_debut = datetime.time(heure.hour, heure.minute)
@@ -79,4 +81,7 @@ class Reservation(models.Model):
         
 
     def __str__(self):
-        return f"{self.nom} - {self.date_heure}-{self.table}"
+        if self.user:
+            return f"{self.user.username} - {self.date_heure} - Table: {self.table.nom if self.table else 'Pas de table assignée'}"
+        else:
+            return f"Utilisateur inconnu - {self.date_heure} - Table: {self.table.nom if self.table else 'Pas de table assignée'}"

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mes Réservations</title>
+    <style>
+        body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: #007bff;
+    margin-bottom: 30px; /* Augmenter l'espacement sous le titre */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%; /* Optionnel : pour contrôler la largeur de la liste */
+    max-width: 600px; /* Optionnel : pour contrôler la largeur maximale */
+}
+
+li {
+    background-color: #ffffff;
+    margin: 20px 0; /* Augmenter l'espacement vertical entre les éléments de la liste */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    display: flex; /* Utiliser flexbox pour aligner les boutons et le texte */
+    justify-content: space-between; /* Répartir l'espace également */
+    align-items: center; /* Centrer les éléments verticalement */
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 20px; /* Augmenter le padding pour de plus gros boutons */
+    margin: 0 10px; /* Espacer les boutons l'un de l'autre */
+    border-radius: 5px;
+    background-color: #00ff55;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.2s;
+}
+
+a.cancel-btn {
+    background-color: #dc3545;
+}
+
+a:hover {
+    background-color: #15b300;
+}
+
+a.cancel-btn:hover {
+    background-color: #c82333;
+}
+
+.home-btn {
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: block; /* Rendre le lien comme un bloc pour permettre le centrage */
+    width: fit-content; /* Adapter la largeur du bouton à son contenu */
+    margin: 30px auto; /* Centrer le bouton horizontalement avec une marge automatique */
+    transition: background-color 0.2s;
+}
+
+.home-btn:hover {
+    background-color: #0056b3;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <h1>Mes Réservations</h1>
+    <ul>
+        {% for reservation in reservations %}
+            <li>
+                <div>Date: {{ reservation.date_heure|date:"d M Y H:i" }}</div>
+                <div>Nombre de personnes: {{ reservation.nombre_personnes }}</div>
+                <a href="{% url 'cancel_reservation' reservation.id %}" class="cancel-btn">Annuler</a>
+                <a href="{% url 'modify_reservation' reservation.id %}">Modifier</a>
+                <a href="{% url 'accueil' %}" class="home-btn">Revenir à l'accueil</a>
+
+            </li>
+        {% empty %}
+            <li>Aucune réservation.</li>
+            <a href="{% url 'accueil' %}" class="home-btn">Revenir à l'accueil</a>
+
+        {% endfor %}
+    </ul>
+</body>
+</html>

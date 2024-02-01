@@ -59,6 +59,14 @@
         <div class="row">
             <div class="col-md-12">
                 <form method="post" action="{% url 'ajouter_reservation' %}">
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|escape }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
                     {% if form.errors %}
                         <div class="alert alert-danger">
                             {% for error in form.non_field_errors %}
@@ -75,9 +83,6 @@
                     <fieldset>
 
                         <legend><span class="number">1</span> Vos informations</legend>
-
-                        <label for="name">Nom:</label>
-                        {{ form.nom }}
 
                         <label for="date">Date :</label>
                         {{ form.date_heure }}

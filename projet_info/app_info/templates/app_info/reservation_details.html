@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de Réservation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            background-color: #171717; /* Arrière-plan foncé pour contraster avec le rouge */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .confirmation-container {
+            text-align: center;
+            background-color: rgb(171, 29, 29); /* Votre couleur principale */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h1, p {
+            margin: 10px 0;
+        }
+
+        /* Style pour les détails de la réservation */
+        .reservation-details {
+            background-color: #ffffff;
+            color: #171717; /* Couleur du texte pour contraste */
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .home-btn {
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: block; /* Rendre le lien comme un bloc pour permettre le centrage */
+    width: fit-content; /* Adapter la largeur du bouton à son contenu */
+    margin: 30px auto; /* Centrer le bouton horizontalement avec une marge automatique */
+    transition: background-color 0.2s;
+}
+
+.home-btn:hover {
+    background-color: #0056b3;
+}
+    </style>
+</head>
+<body>
+    <div class="confirmation-container">
+        <h1>Confirmation de Votre Réservation</h1>
+        <p>Merci pour votre réservation.</p>
+        
+        <!-- Détails de la réservation -->
+        <div class="reservation-details">
+            <p>Nom: {{ reservation.user.username }}</p>
+            <p>Date et Heure: {{ reservation.date_heure|date:"d M Y H:i" }}</p>
+            <p>Nombre de Personnes: {{ reservation.nombre_personnes }}</p>
+        </div>
+        <a href="{% url 'accueil' %}" class="home-btn">Revenir à l'accueil</a>
+
+    </div>
+</body>
+</html>
