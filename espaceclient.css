@@ -1,3 +1,5 @@
+<link href=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css rel="stylesheet">
+
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -6,7 +8,7 @@ body {
 }
 
 .header {
-    background-color: #8B0000; /* Rouge plus foncé */
+    background-color: #070707; /* Rouge plus foncé */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,7 +17,8 @@ body {
 }
 
 .title h1 {
-    color: #e68208; /* Vert pour le titre */
+    font-family: 'Courier New';
+    color: #ffffff; /* Vert pour le titre */
     margin: 0;
 }
 

@@ -1,24 +1,53 @@
 {% load static %}
 
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="{% static 'espaceclient.css' %}">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- css bootstrap -->
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
     
-    <title>Espace Clients</title>
-</head>
-<body>
-
-  <div class="header">
-    <div class="logout-button">
-        <button>Se déconnecter</button>
-    </div>
-    <div class="title">
-        <h1>Espace Clients</h1>
-    </div>
-  </div>
+        <!-- icone et titre de l'onglet -->
+        <link rel="icon" href="./image/logo1.png">
+        <title>La vache qui cuit - Reservation</title>
+    </head>
+    
+    <body>
+    
+        <!-- navbar -->
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">
+                    <img src="./image/logo.png" alt="Logo" style="height:40px;">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="Accueil.html">Accueil <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="menu.html">Menu</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="reservation.html">Reservation</a>
+                        </li>
+    
+                    </ul>
+                    <a href="connexion.html" class="navbar-text">
+                    Connexion
+                </a>
+                <a href="inscription.html" class="navbar-text">
+                    /Inscription
+                </a>
+    
+                </div>
+            </nav>
+        </header>
 
   <div class="container">
     <div class="content">
@@ -43,14 +72,11 @@
         </div>
     </div>
 
-    <div class="image-container">
-        <!-- Place for the restaurant icon image -->
-        <img src="{% static 'LOGOrestaurant-removebg-preview.png' %}" alt="Restaurant Icon">
-    </div>
+    
 
     <div class="contact">
       <h2>Contact du Restaurant :</h2>
-      <p>Téléphone: +123 456 789</p>
+      <p>Téléphone: +33 69 69 600</p>
       <p>Email: contact@restaurant.com</p>
     </div>
   </div>
@@ -58,11 +84,11 @@
 
 
   <div class="wave-container">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="wave">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="rectangle">
         <defs>
             <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color: #0074cc; stop-opacity: 1" />
-                <stop offset="100%" style="stop-color: #005bb5; stop-opacity: 1" />
+                <stop offset="0%" style="stop-color: #070707; stop-opacity: 1" />
+                <stop offset="100%" style="stop-color: #070707; stop-opacity: 1" />
             </linearGradient>
         </defs>
         <path fill="url(#blueGradient)" fill-opacity="1" d="M0,96L60,117.3C120,139,240,181,360,186.7C480,192,600,160,720,133.3C840,107,960,85,1080,85.3C1200,85,1320,107,1380,117.3L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
