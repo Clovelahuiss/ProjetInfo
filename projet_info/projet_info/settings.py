@@ -28,8 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 # settings.py
 
-LOGIN_REDIRECT_URL = 'calendrier_reservations'
-LOGOUT_REDIRECT_URL = 'calendrier_reservations'
+LOGIN_REDIRECT_URL = 'accueil'
+LOGOUT_REDIRECT_URL = 'accueil'
 
 
 

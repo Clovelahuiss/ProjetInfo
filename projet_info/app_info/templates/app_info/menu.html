@@ -1,0 +1,492 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- on mets le logo et le texte dans l'onglet -->
+    <link rel="icon" href="./image/logo1.png">
+    <title>La vache qui cuit - Menu</title>
+
+    <!-- css de bootstrap et css de la page lié -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="./menu.css">
+
+</head>
+
+<body>
+
+    <!-- navbar dans le header -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="{% url 'accueil' %}">
+                <img src="{% static 'logo.png' %}" alt="Logo" style="height:40px;">
+
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'accueil' %}">Accueil <span class="sr-only">(current)</span></a>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'menu' %}">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'ajouter_reservation' %}">Reservation</a>
+                        </li>
+
+                    </li>
+                </ul>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="navbar-text">
+                        Déconnexion
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}">Connexion</a>
+                    <a href="{% url 'signup' %}">Créer un compte</a>
+                </a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    <!-- fin de la navbar -->
+    
+    <!-- titre qui va venir au dessus -->
+    <section id="our_menu" class="pt-5 pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page_title text-center mb-4">
+                        <h1>Notre menu</h1>
+                        <div class="single_line"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- ici on fait les onglets avec un systeme d'encre qui va venir chercher chaque section correspondant -->
+            <div class="row">
+                <ul class="nav nav-tabs menu_tab mb-4" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <!-- on définit cet onglet comme active donc direct lui quand on ouvre la page -->
+                        <a class="nav-link active" id="breakfast-tab" data-toggle="tab" href="#breakfast" role="tab">Petit-Dejeuner</a>
+                    </li>
+                    <!-- nouvel onglet  -->
+                    <li class="nav-item">
+                        <a class="nav-link" id="lunch-tab" data-toggle="tab" href="#lunch" role="tab">Dejeuner</a>
+                    </li>
+                    <!-- nouvel onglet  -->
+                    <li class="nav-item">
+                        <a class="nav-link" id="dinner-tab" data-toggle="tab" href="#dinner" role="tab">Diner</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- fin de la def des onglets -->
+
+            <!-- on definit la structure de chaque éléments de la carte pour chaque onglet -->
+            <div class="row">
+                <div class="tab-content col-lg-12" id="myTabContent">
+                    <!-- on commence logique par breakfast, on definit l'id pour que l'encre fonctionne -->
+                    <div class="tab-pane fade show active" id="breakfast" role="tabpanel" aria-labelledby="breakfast-tab">
+                        <div class="row">
+                            <!-- on définit chaque element de la colonne -->
+                            <div class="col-md-6">
+                                <!-- exemple d'un element de la carte -->
+                                <div class="single_menu">
+                                    <!-- image -->
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Pain_au_chocolat_Luc_Viatour.jpg" alt="pain">
+                                    <!-- contenu -->
+                                    <div class="menu_content">
+                                        <!-- titre avec un span qui permets de modifier seulement cette partie dans le css -->
+                                        <h4>Pain au chocolat <span>5€</span></h4>
+                                        <!-- sous le titre -->
+                                        <p>Pain au chocolat croustillant, une pâtisserie française irrésistible avec une touche de douceur chocolatée.</p>
+                                    </div>
+                                </div>
+                                <!-- fin de l'item -->
+                                <!-- et on repete, chaque element de la carte et un div avec la class single_menu -->
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/lYKUORL.jpg" alt="black coffee">
+                                    <div class="menu_content">
+                                        <h4>Black coffee <span>20€</span></h4>
+                                        <p>Black Coffee pur et corsé pour les amateurs d'arômes forts, servis avec un petit biscuit</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/AXAHrf6.jpg" alt="fried rice">
+                                    <div class="menu_content">
+                                        <h4>Fried Rice <span>45€</span></h4>
+                                        <p>Le Fried Rice: Un délice asiatique mêlant riz sauté, légumes et protéines dans une harmonie parfaite.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/YkDi8Nb.jpg" alt="meat">
+                                    <div class="menu_content">
+                                        <h4>meat <span>24€</span></h4>
+                                        <p>Viande tendre et savoureuse, préparée avec expertise pour satisfaire vos papilles.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- on change de colonne -->
+                            <div class="col-md-6">
+                                <div class="single_menu">
+                                    <img src="data:image/jpeg;base64,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"
+                                        alt="croissant">
+                                    <div class="menu_content">
+                                        <h4>croissant nature <span>4€</span></h4>
+                                        <p>Croissant frais et doré, un délice beurré pour votre petit-déjeuner gourmand, servis avec de la confiture</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://ichef.bbci.co.uk/news/640/cpsprodpb/0624/live/8f338590-6997-11ed-94b2-efbc7109d3dd.jpg" alt="the">
+                                    <div class="menu_content">
+                                        <h4>The vert <span>20€</span></h4>
+                                        <p>Thé vert délicat, rafraîchissant et apaisant, une boisson revigorante pour une pause parfaite.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://img.cuisineaz.com/1024x1024/2016/04/28/i12947-omelette-simple.webp" alt="omelette">
+                                    <div class="menu_content">
+                                        <h4>Omelette garnis <span>25€</span></h4>
+                                        <p>Omelette moelleuse, garnie de délicieux ingrédients, un choix copieux pour le petit-déjeuner ou le brunch.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://destinationsante.com/wp-content/uploads/2017/11/Yulia-Davidovich-shutterstock585.jpg" alt="cereales">
+                                    <div class="menu_content">
+                                        <h4>Bol de céréales <span>24€</span></h4>
+                                        <p>Bol de céréales croquantes, un petit déjeuner rapide et sain pour commencer la journée.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin du menu breakfast -->
+
+                    <!-- debut menu lunch -->
+                    <div class="tab-pane fade" id="lunch" role="tabpanel" aria-labelledby="lunch-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/Aowufa1.jpg" alt="pizza">
+                                    <div class="menu_content">
+                                        <h4>12" Pizza <span>35€</span></h4>
+                                        <p>Pizza fraîche, garnie d'ingrédients savoureux, un plaisir italien irrésistible en chaque bouchée.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/DJlmZDJ.jpg" alt="salad">
+                                    <div class="menu_content">
+                                        <h4>Salad <span>20€</span></h4>
+                                        <p>Salade fraîche et colorée, une explosion de saveurs santé dans chaque bouchée, servis avec des morceaux de poulet</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/knnQm7e.jpg" alt="green tea">
+                                    <div class="menu_content">
+                                        <h4>The vert <span>15€</span></h4>
+                                        <p>Thé vert délicat, rafraîchissant et apaisant, une boisson revigorante pour une pause parfaite.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/YkDi8Nb.jpg" alt="meat">
+                                    <div class="menu_content">
+                                        <h4>meat <span>24€</span></h4>
+                                        <p>Viande tendre et savoureuse, préparée avec expertise pour satisfaire vos papilles.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/kbpceNv.jpg" alt="burger">
+                                    <div class="menu_content">
+                                        <h4>Chicken Burger <span>24€</span></h4>
+                                        <p>Le Chicken Burger Royal : Poulet grillé, cheese, salade, tomate, accompagné de frites.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/lYKUORL.jpg" alt="black coffee">
+                                    <div class="menu_content">
+                                        <h4>Black coffee <span>20€</span></h4>
+                                        <p>Black Coffee pur et corsé pour les amateurs d'arômes forts, servis avec un petit biscuit</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/AXAHrf6.jpg" alt="fried rice">
+                                    <div class="menu_content">
+                                        <h4>Fried Rice <span>45€</span></h4>
+                                        <p>Le Fried Rice: Un délice asiatique mêlant riz sauté, légumes et protéines dans une harmonie parfaite.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://www.galbani.fr/wp-content/uploads/2017/07/Tagliatelles-Bolognaise_313433625-2-800x600.jpeg" alt="bolo">
+                                    <div class="menu_content">
+                                        <h4>tagliatelle bolognaise <span>24€</span></h4>
+                                        <p>Tagliatelle Bolognaise : Pâtes fraîches, sauce riche et viande, un classique italien réconfortant.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin menu lunch -->
+
+                    <!-- debut menu dinner -->
+                    <div class="tab-pane fade" id="dinner" role="tabpanel" aria-labelledby="dinner-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/kbpceNv.jpg" alt="burger">
+                                    <div class="menu_content">
+                                        <h4>Chicken Burger <span>24€</span></h4>
+                                        <p>Le Chicken Burger Royal : Poulet grillé, cheese, salade, tomate, accompagné de frites.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/lYKUORL.jpg" alt="black coffee">
+                                    <div class="menu_content">
+                                        <h4>Black coffee <span>20€</span></h4>
+                                        <p>Black Coffee pur et corsé pour les amateurs d'arômes forts, servis avec son petit biscuit</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/AXAHrf6.jpg" alt="fried rice">
+                                    <div class="menu_content">
+                                        <h4>Fried Rice <span>45€</span></h4>
+                                        <p>Le Fried Rice: Un délice asiatique mêlant riz sauté, légumes et protéines dans une harmonie parfaite.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://i.imgur.com/YkDi8Nb.jpg" alt="meat">
+                                    <div class="menu_content">
+                                        <h4>meat <span>24€</span></h4>
+                                        <p>Viande tendre et savoureuse, préparée avec expertise pour satisfaire vos papilles.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="single_menu">
+                                    <img src="https://img.cuisineaz.com/660x660/2013/12/20/i21855-recette-de-tagliatelles-a-la-carbonara.jpeg" alt="carbo">
+                                    <div class="menu_content">
+                                        <h4>tagliatelle carbonara <span>26€</span></h4>
+                                        <p>Tagliatelle Carbonara : Pâtes crémeuses, bacon croustillant et parmesan, une saveur italienne authentique.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://www.plantafin.fr/-/media/Project/Upfield/Whitelabels/Plantafin-FR/Assets/Recipe/sync-images/7f71bf76-9432-46c6-9f40-1c4a9cd20906.jpg?rev=9459a2e0197c4df8bc5a520a397947a0" alt="steak frite">
+                                    <div class="menu_content">
+                                        <h4>Steak Frites <span>22€</span></h4>
+                                        <p>Steak juteux, accompagné de frites croustillantes, un classique gourmand pour les amateurs de viande.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://cdn.lestavernes.com/wp-content/uploads/2020/12/La-flam-histoires-et-recettes.jpg" alt=" Flammekueche">
+                                    <div class="menu_content">
+                                        <h4> Flammekueche <span>45€</span></h4>
+                                        <p>Flammekueche alsacienne : Fine, croustillante, garnie de lardons et d'oignons.</p>
+                                    </div>
+                                </div>
+                                <div class="single_menu">
+                                    <img src="https://www.galbani.fr/wp-content/uploads/2020/04/AdobeStock_157570276-2.jpeg" alt="salade cesar">
+                                    <div class="menu_content">
+                                        <h4>meat <span>24€</span></h4>
+                                        <p>Salade César : Croquante, garnie de poulet grillé, croûtons, parmesan et sa vinaigrette emblématique.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin menu dinner -->
+
+                </div>
+                <!-- bouton retour en bas, commun a chaque onglet qui renvois vers l'acceuil -->
+                <a href="{% url 'accueil' %}" class="menu_btn btn btn-danger">Retour</a>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        /* debut du css */
+        /* on fait un . + la class qu'on vise pour modifier le style de celle-ci */
+        
+        .page_title {
+            padding: 5px 0px;
+        }
+        /* ici on vient chercher le h1 qui est dans la classe page_title */
+        
+        .page_title h1 {
+            color: rgb(171, 29, 29);
+            font-weight: 700;
+            line-height: 2;
+            margin-bottom: 0;
+            position: relative;
+            text-transform: capitalize;
+        }
+        /* on modifie h1 dans page_title mais on vise "lelement" before */
+        
+        .page_title h1::before {
+            background: rgb(171, 29, 29);
+            width: 70px;
+            height: 2px;
+            position: absolute;
+            content: '';
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        /* on modifie h1 dans page_title mais on vise "lelement" after */
+        
+        .page_title h1::after {
+            position: absolute;
+            content: '';
+            background: #fbc531;
+            width: 30px;
+            height: 2px;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        /*Menu starts*/
+        
+        .menu_tab {
+            margin: 0 auto;
+            justify-content: center;
+        }
+        
+        .nav-item {
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .nav-tabs .nav-link {
+            transition: .3s;
+        }
+        /* définit la couleur de l'élément active en onglet */
+        
+        .nav-tabs .nav-link.active {
+            background: rgb(171, 29, 29);
+            color: #fff;
+            font-weight: 700;
+            border: 1px solid rgb(171, 29, 29);
+            text-transform: capitalize;
+        }
+        /* couleur du texte */
+        
+        .nav-link {
+            color: #000;
+        }
+        /* effet hover lorsqu'on passe la souris dessus */
+        
+        .nav-tabs .nav-link:hover {
+            background: rgb(171, 29, 29);
+            color: #fff;
+            border: 1px solid rgb(171, 29, 29);
+        }
+        
+        .single_menu {
+            position: relative;
+            margin-bottom: 75px;
+            transition: .3s;
+        }
+        /* ici on vient changer le style des images avec l'effet au passage de la souris et on vient définir la taille et la position */
+        
+        .single_menu:hover img {
+            /* ici on vient modofier la forme de l'image lorsqu'on passe dessus  */
+            -webkit-clip-path: polygon(0% 0%, 100% 0, 100% 50%, 100% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 100% 0, 100% 50%, 100% 100%, 0% 100%);
+        }
+        
+        .single_menu img {
+            width: 33%;
+            position: absolute;
+            height: 140px;
+            /* permets ici de mettre une forme spéciale  */
+            -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+            /* temps de transition entre la forme classique et la forme hover */
+            transition: .3s;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        /* on modifie le style de chaque element du menu */
+        
+        .menu_content {
+            padding-left: 200px;
+        }
+        
+        .menu_content h4 {
+            font-size: 25px;
+            font-weight: 300;
+            border-bottom: 1px dashed rgb(171, 29, 29);
+            line-height: 2;
+            text-transform: capitalize;
+        }
+        /* on change l'élément span du h4 dans la class menu_content, on vient le mettre à droite et on change la couleur */
+        
+        .menu_content h4 span {
+            font-size: 25px;
+            font-weight: 800;
+            float: right;
+            font-style: italic;
+            color: rgb(171, 29, 29);
+        }
+        
+        .menu_content p {
+            font-weight: 200;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+        
+        .menu_btn.btn.btn-danger {
+            margin: 0 auto;
+            display: block;
+            width: 140px;
+        }
+        /*Menu ends*/
+        /* style du bouton, ici on bouton bootstrap */
+        
+        .menu_btn.btn.btn-danger {
+            margin: 0 auto;
+            display: block;
+            width: 140px;
+        }
+        
+        .btn.btn-danger {
+            background: rgb(171, 29, 29);
+            border: 1px solid rgb(171, 29, 29);
+            transition: .3s;
+            position: relative;
+            z-index: 1;
+            text-transform: capitalize;
+            font-weight: 700;
+            overflow: hidden;
+            padding: 15px 25px;
+        }
+        /* style lorsqu'on passe la souris sur le bouton */
+        
+        .btn.btn-danger::before {
+            position: absolute;
+            content: '';
+            background: #e74c3c;
+            width: 100%;
+            height: 100%;
+            left: -100%;
+            top: 100%;
+            transition: .3s;
+            z-index: -1;
+        }
+        
+        .btn.btn-danger:hover:before {
+            top: 0;
+            left: 0;
+        }
+    </style>
+
+    <!-- le code js pour bootstrap -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js'></script>
+</body>
+
+</html>

@@ -1,10 +1,238 @@
-{% extends "app_info/base_generic.html" %}
+{% load static %}
 
-{% block content %}
-<h2>Login</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- intégration de l'icon et le titre dans l'onglet -->
+    <link rel="icon" href="./image/logo1.png">
+    <title>La vache qui cuit - Connexion</title>
+    <!-- Ajoutez le CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+
+ <!-- navbar dans le header -->
+ <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="{% url 'accueil' %}">
+            <img src="{% static 'logo.png' %}" alt="Logo" style="height:40px;">
+
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'accueil' %}">Accueil <span class="sr-only">(current)</span></a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'menu' %}">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ajouter_reservation' %}">Reservation</a>
+                    </li>
+
+                </li>
+            </ul>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="navbar-text">
+                    Déconnexion
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}">Connexion</a>
+                <a href="{% url 'signup' %}">Créer un compte</a>
+            </a>
+            {% endif %}
+        </div>
+    </nav>
+</header>
+<!-- fin de la navbar -->
+
+    <!-- gros container qui va tout englober -->
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <!-- définition des onglets et mis au dessus du corps de la "boite" -->
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs">
+                                <li class="nav-item">
+                                    <!-- item active donc direct sur cet element a l'ouverture -->
+                                    <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login">Login</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!-- boite qui va accueillir chaque formulaire -->
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <!-- onglet login (fonctionne toujours avec un systeme d'encre #) -->
+                                <div class="tab-pane active" id="login">
+                                    <!-- on engloble le forms dans des balises forms -->
+                                    <form method="post">
+
+                                    <form>
+                                        <!-- partie pour la zone de l'username -->
+                                        <div class="form-group">
+                                            <label for="loginUsername">Username</label>
+                                            {{ form.username }}
+                                        </div>
+                                        <!-- partie pour le password -->
+                                        <div class="form-group">
+                                            <label for="loginPassword">Password</label>
+                                            {{ form.password }}
+                                        </div>
+                                        <form method="post" action="{% url 'accueil' %}">
+                                            {% csrf_token %}
+                                            ...
+                                            <button type="submit" class="btn btn-primary">Login</button>
+                                        </form>
+                                        
+                                
+                                </div>                                
+                            </div>
+                            <!-- ... -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- css -->
+    <style>
+        *,
+        *:before,
+        *:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            color: #384047;
+        }
+        
+        form {
+            max-width: 300px;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background: #f4f7f8;
+            border-radius: 8px;
+        }
+        
+        h1 {
+            margin: 0 0 30px 0;
+            text-align: center;
+        }
+        /* les inputs impactées par le style juste apres */
+        /* seuelement la zone de texte */
+        /* permets d'appliquer un style differents pour les inputs */
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="username"],
+        input[type="password"],
+        textarea,
+        select {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            font-size: 16px;
+            height: auto;
+            margin: 0;
+            outline: 0;
+            padding: 15px;
+            width: 100%;
+            background-color: #e8eeef;
+            color: #8a97a0;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+            margin-bottom: 30px;
+        }
+        
+        select {
+            padding: 6px;
+            height: 32px;
+            border-radius: 2px;
+        }
+        /* css du bouton */
+        
+        button {
+            padding: 19px 39px 18px 39px;
+            color: #FFF;
+            background-color: rgb(171, 29, 29);
+            font-size: 18px;
+            text-align: center;
+            font-style: normal;
+            border-radius: 5px;
+            width: 100%;
+            border: 1px solid rgb(171, 29, 29);
+            border-width: 1px 1px 3px;
+            box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+            margin-bottom: 10px;
+        }
+        
+        fieldset {
+            margin-bottom: 30px;
+            border: none;
+        }
+        
+        legend {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        label.light {
+            font-weight: 300;
+            display: inline;
+        }
+        /* responsive */
+        
+        @media screen and (min-width: 480px) {
+            form {
+                max-width: 480px;
+            }
+        }
+    </style>
+
+    <!-- petit script pour gérer les mdp si les 2 sont bien identiques et si le premiers reponds bien au critère sinon un message -->
+    <script>
+        function validatePassword() {
+            var password = document.getElementById("signupPassword");
+            var confirmPassword = document.getElementById("confirmPassword");
+
+            if (password.value != confirmPassword.value) {
+                alert("Passwords do not match.");
+                return false;
+            }
+
+            if (!password.value.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
+                alert("Password must be at least 8 characters long and contain at least one letter and one number.");
+                return false;
+            }
+
+            // Submit the form
+            return true;
+        }
+    </script>
+
+
+    <!-- Ajoutez le JavaScript de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
