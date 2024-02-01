@@ -31,13 +31,16 @@
         </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item ">
                         <a class="nav-link" href="{% url 'accueil' %}">Accueil <span class="sr-only">(current)</span></a>
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'menu' %}">Menu</a>
                         </li>
+                        {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'ajouter_reservation' %}">Reservation</a>
+                        </li>
+                    {% endif %}
                         </li>
 
                     </li>
@@ -47,7 +50,7 @@
                         Déconnexion
                     </a>
                 {% else %}
-                    <a href="{% url 'login' %}">Connexion</a>
+                    <a href="{% url 'login' %}">Connexion</a> /
                     <a href="{% url 'signup' %}">Créer un compte</a>
                 </a>
                 {% endif %}
@@ -55,7 +58,8 @@
         </nav>
     </header>
     <!-- fin de la navbar -->
-    
+
+
     <!-- titre qui va venir au dessus -->
     <section id="our_menu" class="pt-5 pb-5">
         <div class="container">

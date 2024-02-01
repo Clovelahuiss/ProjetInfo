@@ -33,11 +33,14 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'accueil' %}">Accueil <span class="sr-only">(current)</span></a>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'menu' %}">Menu</a>
                         </li>
+                        {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'ajouter_reservation' %}">Reservation</a>
+                        </li>
+                    {% endif %}
                         </li>
 
                     </li>
@@ -72,6 +75,7 @@
                             <h1>La vache qui cuit</h1>
                             <p>Un restaurant spécialisé depuis 20ans dans la viande de vache</p>
                             <p><a class="btn btn-danger" href="#histoire" role="button">En savoir plus</a></p>
+                            
                         </div>
                     </div>
                 </div>
@@ -90,7 +94,7 @@
                         <div class="carousel-caption text-right">
                             <h1>Une carte variée</h1>
                             <p>Vous trouverez plus de 20 choix dans la selection de vos repas</p>
-                            <p><a class="btn btn-danger" href="menu.html" role="button">Notre carte</a></p>
+                            <p><a class="btn btn-danger" href="{% url 'menu' %}" role="button">Notre carte</a></p>
                         </div>
                     </div>
                 </div>
@@ -261,16 +265,13 @@
                                     Liens utiles
                                 </h6>
                                 <p>
-                                    <a href="Accueil.html" class="text-white">Accueil</a>
+                                    <a href="{% url 'menu' %}" class="text-white">Menu</a>
                                 </p>
                                 <p>
-                                    <a href="menu.html" class="text-white">Menu</a>
+                                    <a href="{% url 'ajouter_reservation' %}" class="text-white">Reservation</a>
                                 </p>
                                 <p>
-                                    <a href="reservation.html" class="text-white">Reservation</a>
-                                </p>
-                                <p>
-                                    <a href="connexion.html" class="text-white">Connexion</a>
+                                    <a href="{% url 'login' %}" class="text-white">Connexion</a>
                                 </p>
                             </div>
 
